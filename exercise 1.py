@@ -16,6 +16,7 @@ lowFunc = inFunc.lower()
 #User input for upper and lower bounds
 upperBoundInt = raw_input("Please enter an upper bound for the integration\n")
 
+#User input for lower bound
 lowerBoundInt = raw_input("Please enter a lower bound for the integration\n")
 
 #User input for number of integration points
