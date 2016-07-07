@@ -8,6 +8,7 @@ Created on Wed Oct 16 09:04:34 2013
 import matplotlib.pyplot as plt
 import numpy
 
+#Euler method for solving a first order time dependent ODE
 function = raw_input("Please enter an ODE to solve, dx/dt. Do not include the differential operator\n")
 
 method = raw_input("Please enter a method to use (euler, runge-kutta)\n")
@@ -29,6 +30,7 @@ def f(x):
     y = eval(function)
     return y
 
+#Overcomplicated time function. numpy linspace achieves the same result in one line
 def time(t0, t1, steps):
     t = []
     dt = (t1-t0)/steps
@@ -39,6 +41,8 @@ def time(t0, t1, steps):
         i += 1
     return t
     
+#Finds the error by taking the difference between the analytical and numerical solutions.
+#Could be one line as return anax-numx if the two are numpy arrays
 def error(numx, anax):
     imax = len(numx)
     i = 0
@@ -48,6 +52,7 @@ def error(numx, anax):
         i += 1
     return y
     
+#Euler solver. Extremely simple. Could also be reduced to a couple of array multiplications.
 def euler(t0, t1, steps, init):
     dt = (t1-t0)/steps
     y = []
@@ -60,6 +65,7 @@ def euler(t0, t1, steps, init):
         i += 1    
     return y
 
+#Analytical solution, exponential, again could be a single line
 def analytic(t0, t1, steps, init):
     dt = (t1-t0)/steps
     y = []
@@ -71,6 +77,7 @@ def analytic(t0, t1, steps, init):
         i += 1
     return y
 
+#Run everything and plot it. Has basic error handling.
 def solver(t0, t1, method, steps, init):
     errortext = "Unknown method!"
     if method == "euler":     

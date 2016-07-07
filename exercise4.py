@@ -8,12 +8,14 @@ Created on Wed Oct 16 09:04:34 2013
 import matplotlib.pyplot as plt
 import numpy
 
+# Euler and Runge-Kutta ODE solver. Much more limited user input.
 method = raw_input("Please enter a method to use (euler, runge-kutta-order-2, runge-kutta-order-4)\n")
 
 ftime0 = 0.
 ftime1 = 1.
 finit = 1.
 
+#Functions to solve
 def f(x):
     return x
     
@@ -29,7 +31,8 @@ def error(numx, anax):
         y.append(anax[i] - numx[i])
         i += 1
     return y
-    
+ 
+#See exercise3.py for more info on this 
 def euler(t0, t1, steps, init):
     print t1, t0, steps
     dt = (t1 - t0)/steps
@@ -43,7 +46,8 @@ def euler(t0, t1, steps, init):
         t.append(t[i]+ dt)
         i += 1  
     return t, y
-    
+ 
+#Runge-Kutta solver, 2nd order. As in previous exercise, possible to remove loops entirely. 
 def rungeKuttaO2(t0, t1, steps, init):
     dt = (t1-t0)/steps
     y = []
@@ -59,6 +63,7 @@ def rungeKuttaO2(t0, t1, steps, init):
         i += 1    
     return t, y
 
+#Same as above, but 4th order
 def rungeKuttaO4(t0, t1, steps, init):
     dt = (t1-t0)/steps
     y = []
@@ -76,6 +81,7 @@ def rungeKuttaO4(t0, t1, steps, init):
         i += 1    
     return t, y
 
+#Automatic convergence testing for the Euler method
 def eulerConvergence(t0, t1, steps, init):
     time1, result1 = euler(t0, t1, steps, init)
     time2, result2 = euler(t0, t1, 2*steps, init)
@@ -89,6 +95,7 @@ def eulerConvergence(t0, t1, steps, init):
     diff2 = r2[::2] - r3[::4]
     return time1, diff1, diff2
 
+#Pulls everything together. Solves f(x) based on chosen method.
 def solver(t0, t1, method, init):
     errortext = "Unknown method!"
     if method == "euler":
@@ -141,7 +148,7 @@ def solver(t0, t1, method, init):
         plt.ylabel("y(t)")
         plt.legend()
         
-        #convergence
+        #convergence, manually tested by increasing point counts. Could probably be a function.
         convt1, conv1 = rungeKuttaO2(t0, t1, 100., init)
         convt2, conv2 = rungeKuttaO2(t0, t1, 200., init)
         anaconv1 = numpy.exp(convt1)
