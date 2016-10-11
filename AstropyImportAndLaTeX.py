@@ -16,12 +16,6 @@ Created on Mon Oct 10 19:48:38 2016
 import numpy as np # Numpy includes most math functions and constants; we
     # import this as "np" to reduce our typing load.
 
-from matplotlib import pyplot as plt # Matplotlib is the most commonly used
-    # plotting package for my purposes and functions similarly to MATLAB
-    # plotting (hence "MATplotlib").  Since Matplotlib is a very large 
-    # package, we will import only the subpackage we need: Pyplot.  We
-    # import it as plt to reduce our typing load again.
-
 import os # OS allows us to do fun things like changing our working directory.
 
 from astropy.io import ascii # Astropy is a user-created library that contains
@@ -60,7 +54,7 @@ ExpDataTable = ascii.read("expdata.txt") # You must have the file extension
 #-------------------------------------------------------------------------
 
 # In order to manipulate this, we'll need to separate the x- and y- values.
-    # Copy the commands on lines 24, 26, 70, 73, and 82 into your IPython
+    # Copy the commands on lines 16, 19, 21, 34, 37, and 46 into your IPython
     # console independently (striking "Enter" after each paste), then view
     # the imported Python array by copying in the command:
 
