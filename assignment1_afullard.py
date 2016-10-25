@@ -9,10 +9,10 @@ Created on Wed Oct 16 09:04:34 2013
 # 
 #  1) Splitting the equation y" = -w*w*y:
 #      
-#      Let w = y, z = y'
+#      Let u = y, v = y'
 #      
-#      => w' = z
-#      => z' = -w*w*y
+#      => u' = v
+#      => v' = -w*w*y
 # 
 #     Taking an analytic solution of y(t) = cos(wt)
 #     
@@ -53,7 +53,7 @@ ftime1 = 1.0
 fsteps = 1.0
 
 #maximum power of 2 to divide the number of steps by
-stepmultiple = 18
+stepmultiple = 10
 
 #initial conditions for y(0), y'(0)
 finit1 = 1.0
@@ -79,23 +79,23 @@ def euler(t0, t1, steps, init1, init2):
     #determine time step
     dt = (t1 - t0)/steps
     #initialise lists; w is for w' = z, z is for z' = -w*w*y
-    w = []
-    z = []
+    u = []
+    v = []
     t = []
     #initial conditions in the lists
-    z.append(init1)
-    w.append(init2) 
+    v.append(init1)
+    u.append(init2) 
     #loop index
     i = 0
     #initial time
     t.append(t0)
     while i < steps:
         #euler for two ODEs
-        z.append(z[i] + dt*w[i])
-        w.append(w[i] + dt*y2(z[i]))
+        v.append(v[i] + dt*u[i])
+        u.append(u[i] + dt*y2(v[i]))
         t.append(t[i] + dt)
         i += 1 
-    return t, z    
+    return t, v    
        
 #==============================================================================
 # 2) Self-convergence testing further confirms the first-order convergence       
@@ -155,30 +155,30 @@ def rungeKutta(t0, t1, steps, init1, init2):
     #determine time step
     dt = (t1-t0)/steps
     #lists; w is w' = y, z is z' = -4*pi*pi*y
-    w = []
-    z = []
+    u = []
+    v = []
     t = []
-    z.append(init1)
-    w.append(init2)
+    v.append(init1)
+    u.append(init2)
     i = 0
     t.append(t0)
     while i < steps:
         #solver for 2nd order ODE; calculates constants based on the split 1st order ODEs
         #kwX are the constants for w based on z and kzX are the constants for z based on w
         #z is the final result based of w and all the constants
-        kw1 = y2(w[i])
-        kz1 = y1(z[i])
-        kw2 = y2(w[i] + kz1*(dt/2.))
-        kz2 = y1(z[i] + kw1*(dt/2.))
-        kw3 = y2(w[i] + kz2*(dt/2.))
-        kz3 = y1(z[i] + kw2*(dt/2.))
-        kw4 = y2(w[i] + kz3*(dt))
-        kz4 = y1(z[i] + kw3*(dt))
-        w.append(w[i] + (dt/6.)*(kz1 + (2.*kz2) + (2.*kz3) + kz4))
-        z.append(z[i] + (dt/6.)*(kw1 + (2.*kw2) + (2.*kw3) + kw4))
+        ku1 = y2(u[i])
+        kv1 = y1(v[i])
+        ku2 = y2(u[i] + kv1*(dt/2.))
+        kv2 = y1(v[i] + ku1*(dt/2.))
+        ku3 = y2(u[i] + kv2*(dt/2.))
+        kv3 = y1(v[i] + ku2*(dt/2.))
+        ku4 = y2(u[i] + kv3*(dt))
+        kv4 = y1(v[i] + ku3*(dt))
+        u.append(u[i] + (dt/6.)*(kv1 + (2.*kv2) + (2.*kv3) + kv4))
+        v.append(v[i] + (dt/6.)*(ku1 + (2.*ku2) + (2.*ku3) + ku4))
         t.append(t[i] + dt)
         i += 1    
-    return t, z
+    return t, v
 
 #error calculation(numerical solution, analytical solution, number of solutions to test)
 def errorRunge(stepmultiple):
